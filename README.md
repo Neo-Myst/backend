@@ -3,7 +3,6 @@
 ## Prerequisites
 
 - **Python 3.12 or newer** (required for development)
-
   - Install it from the [Python official website](https://www.python.org/downloads/).
   - Verify installation:
     ```bash
@@ -19,6 +18,24 @@
     docker --version
     docker-compose --version
     ```
+
+---
+
+## Troubleshooting
+
+If you encounter an error similar to the following when running the application:
+
+```
+ImportError: dlopen(.../_psycopg.cpython-312-darwin.so, 0x0002): Library not loaded: @rpath/libpq.5.dylib
+```
+
+It means that the PostgreSQL client library (`libpq`) is not found. To fix this issue on macOS, run the following command to install `libpq` via Homebrew:
+
+```bash
+brew install libpq
+```
+
+This should resolve the missing library error.  
 
 ---
 
@@ -127,14 +144,12 @@ This will show how much of your code is covered by the tests.
 ### What Tests Are Included?
 
 - **User Routes**:
-
   - Test user creation (`/signup`).
   - Test user login (`/login`).
   - Test user deletion (`/delete-user/{id}`).
   - Test user updates (`/update-user/{id}`).
 
 - **Database Operations**:
-
   - Verify database integration for CRUD operations.
 
 - **Edge Cases**:
@@ -144,20 +159,18 @@ This will show how much of your code is covered by the tests.
 
 ---
 
-## How it works:
+## How It Works
 
-### Development:
+### Development
 
-- During development:
-  - **Hot Reload**: FastAPI runs with `uvicorn --reload` for automatic code reload on changes.
-  - **Database & pgAdmin**: PostgreSQL and pgAdmin run via Docker Compose to avoid local installation.
+- **Hot Reload**: FastAPI runs with `uvicorn --reload` for automatic code reload on changes.
+- **Database & pgAdmin**: PostgreSQL and pgAdmin run via Docker Compose to avoid local installation.
 
-### Production:
+### Production
 
-- For production:
-  - **Dockerized Deployment**: FastAPI, PostgreSQL, and pgAdmin run inside containers.
+- **Dockerized Deployment**: FastAPI, PostgreSQL, and pgAdmin run inside containers.
 
-### Testing:
+### Testing
 
 - Tests are implemented using `pytest` to ensure the reliability of the application.
 - Covers both happy paths and edge cases to prevent regressions and ensure robustness.
