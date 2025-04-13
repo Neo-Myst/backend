@@ -3,6 +3,8 @@ from fastapi.middleware.cors import CORSMiddleware
 from starlette.middleware.sessions import SessionMiddleware
 from contextlib import asynccontextmanager
 
+from app.game_progress import router as progress_router
+
 try:
     from app import models, database, users, quizzes, seed
 except ImportError:
@@ -44,3 +46,4 @@ def read_root():
 
 app.include_router(users.router)
 app.include_router(quizzes.router)
+app.include_router(progress_router)

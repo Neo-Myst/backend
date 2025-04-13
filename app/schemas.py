@@ -1,6 +1,5 @@
 from pydantic import BaseModel, EmailStr, ConfigDict
-from typing import List, Optional
-
+from typing import Optional
 
 # User Schema
 class UserBase(BaseModel):
@@ -27,9 +26,22 @@ class LoginUser(BaseModel):
         populate_by_name=True
     )
 
+class Progress(BaseModel):
+    current_module: str
+    current_chapter: int
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
 
 class UserProgressUpdate(BaseModel):
-    progress: int  # Updates user's completed chapters
+    progress: Progress
+
+    model_config = ConfigDict(
+        from_attributes=True,
+        populate_by_name=True
+    )
 
 
 # Module Schema

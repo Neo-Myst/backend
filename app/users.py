@@ -64,16 +64,22 @@ def create_user(user: CreateUser, db: Session = Depends(get_db)):
 
 
 @router.post('/login', status_code=status.HTTP_200_OK)
+@router.post('/login', status_code=status.HTTP_200_OK)
 def login(user: LoginUser, db: Session = Depends(get_db)):
     db_user = db.query(User).filter(
-        (User.username == user.username_or_email) | (
-            User.email == user.username_or_email)
+        (User.username == user.username_or_email) | (User.email == user.username_or_email)
     ).first()
     if not db_user or not verify_password(user.password, db_user.password):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED, detail="Invalid credentials")
     token = create_access_token({"sub": db_user.email})
-    return {"access_token": token, "token_type": "bearer", "username": db_user.username}
+    return {
+        "access_token": token,
+        "token_type": "bearer",
+        "username": db_user.username,
+        "email": db_user.email
+    }
+
 
 
 @router.get('/google/login')
