@@ -5,7 +5,7 @@ except ImportError:
 
 from sqlalchemy import Column, Integer, Float, String, TIMESTAMP, ForeignKey, text
 from sqlalchemy.orm import relationship
-
+from sqlalchemy.dialects.postgresql import JSONB
 
 class User(Base):
     __tablename__ = "users"
@@ -14,10 +14,9 @@ class User(Base):
     username = Column(String, nullable=False)
     email = Column(String, nullable=False, unique=True)
     password = Column(String, nullable=False)
-    # Tracks chapter progression
-    progress = Column(Integer, server_default="0")
-    created_at = Column(TIMESTAMP(timezone=True), server_default=text(
-        'CURRENT_TIMESTAMP'), nullable=False)
+    # Store progress as a JSON object for detailed progress tracking
+    progress = Column(JSONB, nullable=False, server_default=text("'{}'::jsonb"))
+    created_at = Column(TIMESTAMP(timezone=True), server_default=text('CURRENT_TIMESTAMP'), nullable=False)
 
 
 class Module(Base):
